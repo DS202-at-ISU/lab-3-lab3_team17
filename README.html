@@ -372,101 +372,125 @@ you are done with your submission.</p>
 <h2>As a team</h2>
 <p>Extract from the data below two data sets in long form
 <code>deaths</code> and <code>returns</code></p>
-<pre><code>av &lt;- read.csv(&quot;https://raw.githubusercontent.com/fivethirtyeight/data/master/avengers/avengers.csv&quot;, stringsAsFactors = FALSE)
-head(av)
-
-##                                                       URL                  Name.Alias Appearances Current. Gender
-## 1           http://marvel.wikia.com/Henry_Pym_(Earth-616)   Henry Jonathan &quot;Hank&quot; Pym        1269      YES   MALE
-## 2      http://marvel.wikia.com/Janet_van_Dyne_(Earth-616)              Janet van Dyne        1165      YES FEMALE
-## 3       http://marvel.wikia.com/Anthony_Stark_(Earth-616) Anthony Edward &quot;Tony&quot; Stark        3068      YES   MALE
-## 4 http://marvel.wikia.com/Robert_Bruce_Banner_(Earth-616)         Robert Bruce Banner        2089      YES   MALE
-## 5        http://marvel.wikia.com/Thor_Odinson_(Earth-616)                Thor Odinson        2402      YES   MALE
-## 6       http://marvel.wikia.com/Richard_Jones_(Earth-616)      Richard Milhouse Jones         612      YES   MALE
-##   Probationary.Introl Full.Reserve.Avengers.Intro Year Years.since.joining Honorary Death1 Return1 Death2 Return2
-## 1                                          Sep-63 1963                  52     Full    YES      NO               
-## 2                                          Sep-63 1963                  52     Full    YES     YES               
-## 3                                          Sep-63 1963                  52     Full    YES     YES               
-## 4                                          Sep-63 1963                  52     Full    YES     YES               
-## 5                                          Sep-63 1963                  52     Full    YES     YES    YES      NO
-## 6                                          Sep-63 1963                  52 Honorary     NO                       
-##   Death3 Return3 Death4 Return4 Death5 Return5
-## 1                                             
-## 2                                             
-## 3                                             
-## 4                                             
-## 5                                             
-## 6                                             
+<pre class="r"><code>av &lt;- read.csv(&quot;https://raw.githubusercontent.com/fivethirtyeight/data/master/avengers/avengers.csv&quot;, stringsAsFactors = FALSE)
+head(av)</code></pre>
+<pre><code>##                                                       URL
+## 1           http://marvel.wikia.com/Henry_Pym_(Earth-616)
+## 2      http://marvel.wikia.com/Janet_van_Dyne_(Earth-616)
+## 3       http://marvel.wikia.com/Anthony_Stark_(Earth-616)
+## 4 http://marvel.wikia.com/Robert_Bruce_Banner_(Earth-616)
+## 5        http://marvel.wikia.com/Thor_Odinson_(Earth-616)
+## 6       http://marvel.wikia.com/Richard_Jones_(Earth-616)
+##                    Name.Alias Appearances Current. Gender Probationary.Introl
+## 1   Henry Jonathan &quot;Hank&quot; Pym        1269      YES   MALE                    
+## 2              Janet van Dyne        1165      YES FEMALE                    
+## 3 Anthony Edward &quot;Tony&quot; Stark        3068      YES   MALE                    
+## 4         Robert Bruce Banner        2089      YES   MALE                    
+## 5                Thor Odinson        2402      YES   MALE                    
+## 6      Richard Milhouse Jones         612      YES   MALE                    
+##   Full.Reserve.Avengers.Intro Year Years.since.joining Honorary Death1 Return1
+## 1                      Sep-63 1963                  52     Full    YES      NO
+## 2                      Sep-63 1963                  52     Full    YES     YES
+## 3                      Sep-63 1963                  52     Full    YES     YES
+## 4                      Sep-63 1963                  52     Full    YES     YES
+## 5                      Sep-63 1963                  52     Full    YES     YES
+## 6                      Sep-63 1963                  52 Honorary     NO        
+##   Death2 Return2 Death3 Return3 Death4 Return4 Death5 Return5
+## 1                                                            
+## 2                                                            
+## 3                                                            
+## 4                                                            
+## 5    YES      NO                                             
+## 6                                                            
 ##                                                                                                                                                                              Notes
 ## 1                                                                                                                Merged with Ultron in Rage of Ultron Vol. 1. A funeral was held. 
 ## 2                                                                                                  Dies in Secret Invasion V1:I8. Actually was sent tto Microverse later recovered
 ## 3 Death: &quot;Later while under the influence of Immortus Stark committed a number of horrible acts and was killed.&#39;  This set up young Tony. Franklin Richards later brought him back
 ## 4                                                                               Dies in Ghosts of the Future arc. However &quot;he had actually used a hidden Pantheon base to survive&quot;
 ## 5                                                      Dies in Fear Itself brought back because that&#39;s kind of the whole point. Second death in Time Runs Out has not yet returned
-## 6                                                                                                                                                                             &lt;NA&gt;
+## 6                                                                                                                                                                             &lt;NA&gt;</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;
 
-library(dplyr)
-library(tidyverse)
-library(stringr)</code></pre>
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag
+
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ forcats   1.0.0     ✔ readr     2.1.5
+## ✔ ggplot2   3.5.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.3     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(stringr)</code></pre>
 <p>Get the data into a format where the five columns for Death<span class="math display">\[1-5\]</span> are replaced by two columns: Time,
 and Death. Time should be a number between 1 and 5 (look into the
 function <code>parse_number</code>); Death is a categorical variables
 with values “yes”, “no” and ““. Call the resulting data set
 <code>deaths</code>.</p>
-<pre><code>deaths &lt;- av |&gt;
+<pre class="r"><code>deaths &lt;- av |&gt;
   pivot_longer(cols = starts_with(&quot;Death&quot;),
                names_to = &quot;Time&quot;,
                values_to = &quot;Death&quot;) |&gt;
   mutate(Time = parse_number(str_remove(Time,&quot;Death&quot;)))
-deaths
-
-## # A tibble: 865 × 18
-##    URL                     Name.Alias Appearances Current. Gender Probationary.Introl Full.Reserve.Avenger…¹  Year
-##    &lt;chr&gt;                   &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;               &lt;chr&gt;                  &lt;int&gt;
-##  1 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  2 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  3 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  4 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  5 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  6 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  7 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  8 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  9 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-## 10 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
+deaths</code></pre>
+<pre><code>## # A tibble: 865 × 18
+##    URL                Name.Alias Appearances Current. Gender Probationary.Introl
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;              
+##  1 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  2 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  3 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  4 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  5 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  6 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  7 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  8 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  9 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+## 10 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
 ## # ℹ 855 more rows
-## # ℹ abbreviated name: ¹​Full.Reserve.Avengers.Intro
-## # ℹ 10 more variables: Years.since.joining &lt;int&gt;, Honorary &lt;chr&gt;, Return1 &lt;chr&gt;, Return2 &lt;chr&gt;, Return3 &lt;chr&gt;,
-## #   Return4 &lt;chr&gt;, Return5 &lt;chr&gt;, Notes &lt;chr&gt;, Time &lt;dbl&gt;, Death &lt;chr&gt;</code></pre>
+## # ℹ 12 more variables: Full.Reserve.Avengers.Intro &lt;chr&gt;, Year &lt;int&gt;,
+## #   Years.since.joining &lt;int&gt;, Honorary &lt;chr&gt;, Return1 &lt;chr&gt;, Return2 &lt;chr&gt;,
+## #   Return3 &lt;chr&gt;, Return4 &lt;chr&gt;, Return5 &lt;chr&gt;, Notes &lt;chr&gt;, Time &lt;dbl&gt;,
+## #   Death &lt;chr&gt;</code></pre>
 <p>Similarly, deal with the returns of characters.</p>
-<pre><code>returns &lt;- av |&gt;
+<pre class="r"><code>returns &lt;- av |&gt;
   pivot_longer(cols = starts_with(&quot;Return&quot;),
                names_to = &quot;Time&quot;,
                values_to = &quot;Return&quot;) |&gt;
   mutate(TimeReturn = parse_number(str_remove(Time,&quot;Return&quot;)))
-returns
-
-## # A tibble: 865 × 19
-##    URL                     Name.Alias Appearances Current. Gender Probationary.Introl Full.Reserve.Avenger…¹  Year
-##    &lt;chr&gt;                   &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;               &lt;chr&gt;                  &lt;int&gt;
-##  1 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  2 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  3 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  4 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  5 http://marvel.wikia.co… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                  Sep-63                  1963
-##  6 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  7 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  8 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-##  9 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
-## 10 http://marvel.wikia.co… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                  Sep-63                  1963
+returns</code></pre>
+<pre><code>## # A tibble: 865 × 19
+##    URL                Name.Alias Appearances Current. Gender Probationary.Introl
+##    &lt;chr&gt;              &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;              
+##  1 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  2 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  3 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  4 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  5 http://marvel.wik… &quot;Henry Jo…        1269 YES      MALE   &quot;&quot;                 
+##  6 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  7 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  8 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+##  9 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
+## 10 http://marvel.wik… &quot;Janet va…        1165 YES      FEMALE &quot;&quot;                 
 ## # ℹ 855 more rows
-## # ℹ abbreviated name: ¹​Full.Reserve.Avengers.Intro
-## # ℹ 11 more variables: Years.since.joining &lt;int&gt;, Honorary &lt;chr&gt;, Death1 &lt;chr&gt;, Death2 &lt;chr&gt;, Death3 &lt;chr&gt;,
-## #   Death4 &lt;chr&gt;, Death5 &lt;chr&gt;, Notes &lt;chr&gt;, Time &lt;chr&gt;, Return &lt;chr&gt;, TimeReturn &lt;dbl&gt;</code></pre>
+## # ℹ 13 more variables: Full.Reserve.Avengers.Intro &lt;chr&gt;, Year &lt;int&gt;,
+## #   Years.since.joining &lt;int&gt;, Honorary &lt;chr&gt;, Death1 &lt;chr&gt;, Death2 &lt;chr&gt;,
+## #   Death3 &lt;chr&gt;, Death4 &lt;chr&gt;, Death5 &lt;chr&gt;, Notes &lt;chr&gt;, Time &lt;chr&gt;,
+## #   Return &lt;chr&gt;, TimeReturn &lt;dbl&gt;</code></pre>
 <p>Based on these datasets calculate the average number of deaths an
 Avenger suffers.</p>
-<pre><code>#Average number of deaths
-sum(deaths$Death == &quot;YES&quot;) / length(unique(av$Name.Alias))
-
-## [1] 0.5460123</code></pre>
+<pre class="r"><code>#Average number of deaths
+sum(deaths$Death == &quot;YES&quot;) / length(unique(av$Name.Alias))</code></pre>
+<pre><code>## [1] 0.5460123</code></pre>
 </div>
 <div id="individually" class="section level2">
 <h2>Individually</h2>
@@ -494,9 +518,43 @@ fact-checking endeavor.</p>
 a team.</p>
 </div>
 </div>
+<div id="subham-bhattacharya" class="section level2">
+<h2>Subham Bhattacharya</h2>
+<div id="fivethirtyeight-statement-1" class="section level3">
+<h3>FiveThirtyEight Statement</h3>
+<blockquote>
+<p>Subham Statment: “Out of 173 listed Avengers, my analysis found that
+69 had died at least one time after they joined the team. That’s about
+40 percent of all people who have ever signed on to the team.”</p>
+</blockquote>
+</div>
+<div id="subham-code" class="section level3">
+<h3>Subham code</h3>
+<pre class="r"><code># Calculate the total number of Avengers who died at least once
+avengers_died &lt;- deaths %&gt;%
+  filter(Death == &quot;YES&quot;) %&gt;%
+  distinct(Name.Alias) %&gt;%
+  nrow()
+
+# Calculate the percentage of Avengers who died at least once
+total_avengers &lt;- length(unique(av$Name.Alias))
+percentage_died &lt;- (avengers_died / total_avengers) * 100
+
+cat(&quot;Out of&quot;, total_avengers, &quot;listed Avengers, my analysis found that&quot;, avengers_died, &quot;had died at least one time after they joined the team. That’s about&quot;, round(percentage_died, 2), &quot;percent of all people who have ever signed on to the team.\n&quot;)</code></pre>
+<pre><code>## Out of 163 listed Avengers, my analysis found that 64 had died at least one time after they joined the team. That’s about 39.26 percent of all people who have ever signed on to the team.</code></pre>
+</div>
+<div id="subham-answer" class="section level3">
+<h3>Subham answer</h3>
+<p>Subham: Based on my code and analysis I found that my answer is
+slightly different from the provided statement in my code I got that
+there are a total of 163 avengers among which 63 have died atleast once,
+which is about 39.26% so my analysis gets slightly different result from
+the provided the result.</p>
+</div>
+</div>
 <div id="manjul-balayar" class="section level2">
 <h2>Manjul Balayar</h2>
-<div id="fivethirtyeight-statement-1" class="section level3">
+<div id="fivethirtyeight-statement-2" class="section level3">
 <h3>FiveThirtyEight Statement</h3>
 <blockquote>
 <p>Let’s check if the Hulk has died less often than Thor</p>
@@ -506,7 +564,7 @@ a team.</p>
 <h3>Include the code</h3>
 <p>Make sure to include the code to derive the (numeric) fact for the
 statement</p>
-<pre><code>specific_avengers &lt;- av %&gt;% 
+<pre class="r"><code>specific_avengers &lt;- av %&gt;% 
   filter(grepl(&quot;Robert Bruce Banner|Thor Odinson&quot;, Name.Alias))
 
 deaths_specific &lt;- specific_avengers |&gt;
@@ -517,9 +575,8 @@ deaths_specific &lt;- specific_avengers |&gt;
   group_by(Name.Alias) %&gt;%
   summarise(Total_Deaths = sum(Death == &quot;YES&quot;, na.rm = TRUE))
 
-print(deaths_specific)
-
-## # A tibble: 2 × 2
+print(deaths_specific)</code></pre>
+<pre><code>## # A tibble: 2 × 2
 ##   Name.Alias          Total_Deaths
 ##   &lt;chr&gt;                      &lt;int&gt;
 ## 1 Robert Bruce Banner            1
