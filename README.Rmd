@@ -83,6 +83,34 @@ Include at least one sentence discussing the result of your fact-checking endeav
 
 Upload your changes to the repository. Discuss and refine answers as a team.
 
+
+## Michael Friedman
+### FiveThirtyEight Statement
+
+> Is Jocasta truly the MVP? The author states, "The MVP of the Earth-616 Marvel Universe Avengers has to be Jocasta — an android based on Janet van Dyne and built by Ultron".
+
+### Include the code
+
+Make sure to include the code to derive the (numeric) fact for the statement
+
+```{r}
+
+# Create a table to find who died the most.
+
+deaths %>% count(Time)
+
+# The table indicates one person died 5 times, which is the most of any Avenger. Then, use the which function to find who it is.
+
+avengersmvp <- deaths$Name.Alias[which(deaths$Time == 5)]
+
+print(avengersmvp)
+
+```
+
+### Include your answer
+Michael: Jocasta has died 5 times (wow) which is far more than any other Avenger. I think it's safe to Jocasta is the MVP.
+
+
 ## Subham Bhattacharya
 ### FiveThirtyEight Statement
 > Subham Statment: "Out of 173 listed Avengers, my analysis found that 69 had died at least one time after they joined the team. That’s about 40 percent of all people who have ever signed on to the team."
