@@ -199,6 +199,39 @@ fact-checking endeavor.
 Upload your changes to the repository. Discuss and refine answers as a
 team.
 
+## Michael Friedman
+### FiveThirtyEight Statement
+
+> "But you can only tempt death so many times. There’s a 2-in-3 chance that a member of the Avengers returned from their first stint in the afterlife".
+
+### Include the code
+
+Make sure to include the code to derive the (numeric) fact for the statement
+
+```{r}
+
+# Find how many Avengers died and remove duplicate observations
+dead_avengers <- deaths %>%
+  filter(Death == "YES") %>%
+  distinct(URL, .keep_all = TRUE) %>%
+  nrow()
+
+# Find how many Avengers returned from their first death
+returned_avengers <- deaths %>%
+  filter(Death == "YES") %>%
+  distinct(URL, .keep_all = TRUE) %>%
+  filter(Return1 == "YES") %>%
+  nrow()
+
+# Calculate and print the proportion
+did_they_return <- returned_avengers / dead_avengers
+print(did_they_return)
+
+```
+
+### Include your answer
+Michael: The propotion of Avengers who came back to life after their first death was in fact 2/3.
+
 ## Subham Bhattacharya
 
 ### FiveThirtyEight Statement
